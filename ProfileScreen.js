@@ -1,12 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -32,6 +24,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {useFocusEffect} from '@react-navigation/native';
+
 import ProfileContainer from './ProfileContainer';
 
 import styled from 'styled-components';
@@ -44,7 +38,9 @@ const ProfileScreen = () => {
 
   const [level, setLevel] = useState(1);
 
-  console.log('Start log');
+  const handleEffect = useCallback(() => console.log('Profile mount'), []);
+
+  useFocusEffect(handleEffect);
 
   function onUpgradePress() {
     console.log('Upgrade level!!!');

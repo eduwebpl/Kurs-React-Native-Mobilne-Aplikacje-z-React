@@ -31,13 +31,14 @@ import ProfileScreen from './ProfileScreen';
 import TodoList from './TodoList';
 import WebView from 'react-native-webview';
 import {NavigationContainer} from '@react-navigation/native';
+import TabNavigator from './TabNavigator';
 
 //
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Container />
+      <TabNavigator />
     </NavigationContainer>
   );
 };
