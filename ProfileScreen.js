@@ -45,19 +45,19 @@ const ProfileScreen = () => {
   //
 
   const handleEffect = useCallback(() => {
-    Animated.timing(photoAnim.current, {
-      toValue: 1.2,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    setTimeout(() => {
+    Animated.sequence([
+      Animated.timing(photoAnim.current, {
+        toValue: 1.2,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.delay(300),
       Animated.timing(photoAnim.current, {
         toValue: 1.0,
         duration: 300,
         useNativeDriver: true,
-      }).start();
-    }, 310);
+      }),
+    ]).start();
   }, []);
 
   useFocusEffect(handleEffect);
@@ -67,19 +67,19 @@ const ProfileScreen = () => {
 
     setLevel(level + 1);
 
-    Animated.timing(upgradeAnim.current, {
-      toValue: 1.2,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    setTimeout(() => {
+    Animated.sequence([
+      Animated.timing(upgradeAnim.current, {
+        toValue: 1.2,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+      Animated.delay(1000),
       Animated.timing(upgradeAnim.current, {
         toValue: 1.0,
         duration: 300,
         useNativeDriver: true,
-      }).start();
-    }, 310);
+      }),
+    ]).start();
   }
 
   function onDescriptionChange() {
