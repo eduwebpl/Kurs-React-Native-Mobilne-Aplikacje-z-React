@@ -27,6 +27,7 @@ import {
 
 import styled from 'styled-components';
 import ProfileScreen from './ProfileScreen';
+import TodoList from './TodoList';
 
 const profileImage = require('./assets/image.jpg');
 
@@ -35,7 +36,7 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <ProfileScreen />
+      <TodoList />
     </SafeAreaView>
   );
 };
