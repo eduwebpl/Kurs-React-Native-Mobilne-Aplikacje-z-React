@@ -15,6 +15,9 @@ import {
   Text,
   StatusBar,
   Image,
+  Button,
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -32,6 +35,10 @@ const profileImage = require('./assets/image.jpg');
 const ProfileScreen = () => {
   console.log('Start log');
 
+  function onUpgradePress() {
+    console.log('Upgrade level!!!');
+  }
+
   return (
     <Container>
       <ProfileImage
@@ -42,6 +49,13 @@ const ProfileScreen = () => {
       />
       <ProfileNameText>{'Jan Nowak'}</ProfileNameText>
       <DescriptionText>{'something cool here...'}</DescriptionText>
+
+      <UpgradeButton
+        onPress={onUpgradePress}
+        onPressIn={() => console.log('onPressIn')}
+        onPressOut={() => console.log('onPressOut')}>
+        <UpgradeButtonText>{'UPGRADE'}</UpgradeButtonText>
+      </UpgradeButton>
     </Container>
   );
 };
@@ -67,6 +81,17 @@ const ProfileNameText = styled(Text)`
 const DescriptionText = styled(Text)`
   font-size: 16px;
   color: gray;
+`;
+
+const UpgradeButton = styled(TouchableOpacity)`
+  background-color: blue;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 20px;
+`;
+
+const UpgradeButtonText = styled(Text)`
+  color: white;
 `;
 
 export default ProfileScreen;
