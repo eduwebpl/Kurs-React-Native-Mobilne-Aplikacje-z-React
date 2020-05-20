@@ -28,17 +28,45 @@ import {
 import styled from 'styled-components';
 import ProfileScreen from './ProfileScreen';
 import TodoList from './TodoList';
-
-const profileImage = require('./assets/image.jpg');
+import WebView from 'react-native-webview';
 
 const App = () => {
   console.log('Start log');
 
   return (
     <SafeAreaView>
-      <TodoList />
+      <Container>
+        <DynamicWebView
+          source={{uri: 'https://wp.pl/'}}
+          startInLoadingState={true}
+          renderLoading={() => <Text>{'Loading...'}</Text>}
+          renderError={() => <Text>{'Error!'}</Text>}
+          onShouldStartLoadWithRequest={request => {
+            console.log('WEBVIEW request = ', request.mainDocumentURL);
+
+            if (request.mainDocumentURL.includes('wiadomosci')) {
+              return false;
+            }
+
+            return true;
+          }}
+          onMessage={msg => {
+            console.log('WEBVIEW msg = ', msg);
+          }}
+        />
+      </Container>
     </SafeAreaView>
   );
 };
+
+const Container = styled(View)`
+  width: 100%;
+  height: 100%;
+`;
+
+const DynamicWebView = styled(WebView)`
+  width: 100%;
+  height: 100%;
+`;
 
 export default App;
