@@ -21,6 +21,7 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
 import {
@@ -30,6 +31,8 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import ProfileContainer from './ProfileContainer';
 
 import styled from 'styled-components';
 
@@ -62,7 +65,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={'height'}>
+    <ProfileContainer>
       <Container>
         <Content>
           <ProfileImageWrapper>
@@ -99,7 +102,7 @@ const ProfileScreen = () => {
           </DescriptionButton>
         </SetDescriptionWrapper>
       </Container>
-    </KeyboardAvoidingView>
+    </ProfileContainer>
   );
 };
 
