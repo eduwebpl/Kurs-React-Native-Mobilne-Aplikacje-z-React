@@ -33,6 +33,8 @@ const TodoList = () => {
     const newElems = Array.from(Array(1000).keys()).map(e => `element: ${e}`);
 
     setTasks(newElems);
+
+    navigate('ModalDetails', {info: 'New task added'});
   }
 
   const onItemPress = useCallback(

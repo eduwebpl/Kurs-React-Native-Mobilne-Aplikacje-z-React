@@ -33,13 +33,14 @@ import WebView from 'react-native-webview';
 import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
 import StackNavigator from './StackNavigator';
+import ModalStackNavigator from './ModalStackNavigator';
 
 //
 
 const App = () => {
   return (
     <NavigationContainer>
-      <StackNavigator />
+      <ModalStackNavigator />
     </NavigationContainer>
   );
 };
