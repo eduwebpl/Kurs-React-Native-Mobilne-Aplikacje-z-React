@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import ListItem from './ListItem';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -19,6 +20,8 @@ const TodoList = () => {
     Array.from(Array(1000).keys()).map(e => `element: ${e}`),
   );
   const [currentText, setCurrentText] = useState('');
+
+  const {navigate} = useNavigation();
 
   function onAddTask() {
     if (currentText.length < 3) {
@@ -32,9 +35,12 @@ const TodoList = () => {
     setTasks(newElems);
   }
 
-  const onItemPress = useCallback(itemInfo => {
-    console.log('onItemPress = ', itemInfo);
-  }, []);
+  const onItemPress = useCallback(
+    itemInfo => {
+      navigate('Details', {info: itemInfo});
+    },
+    [navigate],
+  );
 
   return (
     <SafeAreaView>

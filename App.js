@@ -32,13 +32,14 @@ import TodoList from './TodoList';
 import WebView from 'react-native-webview';
 import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './TabNavigator';
+import StackNavigator from './StackNavigator';
 
 //
 
 const App = () => {
   return (
     <NavigationContainer>
-      <TabNavigator />
+      <StackNavigator />
     </NavigationContainer>
   );
 };
