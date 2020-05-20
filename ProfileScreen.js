@@ -20,6 +20,7 @@ import {
   TouchableOpacity,
   TextInput,
   Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -38,13 +39,21 @@ const ProfileScreen = () => {
   const [description, setDescription] = useState('Something...');
   const [currentText, setCurrentText] = useState('');
 
+  const [level, setLevel] = useState(1);
+
   console.log('Start log');
 
   function onUpgradePress() {
     console.log('Upgrade level!!!');
+
+    setLevel(level + 1);
   }
 
   function onDescriptionChange() {
+    if (currentText.length < 3) {
+      return;
+    }
+
     setDescription(currentText);
 
     setCurrentText('');
@@ -53,33 +62,44 @@ const ProfileScreen = () => {
   }
 
   return (
-    <Container>
-      <ProfileImage
-        source={{
-          uri:
-            'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
-        }}
-      />
-      <ProfileNameText>{'Jan Nowak'}</ProfileNameText>
-      <DescriptionText>{description}</DescriptionText>
-
-      <UpgradeButton
-        onPress={onUpgradePress}
-        onPressIn={() => console.log('onPressIn')}
-        onPressOut={() => console.log('onPressOut')}>
-        <UpgradeButtonText>{'UPGRADE'}</UpgradeButtonText>
-      </UpgradeButton>
-
-      <DescriptionInput
-        placeholder={'New description...'}
-        value={currentText}
-        onChangeText={setCurrentText}
-        onSubmitEditing={onDescriptionChange}
-      />
-      <DescriptionButton onPress={onDescriptionChange}>
-        <DescriptionButtonText>{'Set description'}</DescriptionButtonText>
-      </DescriptionButton>
-    </Container>
+    <KeyboardAvoidingView behavior={'height'}>
+      <Container>
+        <Content>
+          <ProfileImageWrapper>
+            <ProfileImage
+              source={{
+                uri:
+                  'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
+              }}
+            />
+            <LevelIndicator>
+              <LevelIndicatorText>{level}</LevelIndicatorText>
+            </LevelIndicator>
+          </ProfileImageWrapper>
+          <View>
+            <ProfileNameText>{'Jan Nowak'}</ProfileNameText>
+            <DescriptionText>{description}</DescriptionText>
+          </View>
+          <UpgradeButton
+            onPress={onUpgradePress}
+            onPressIn={() => console.log('onPressIn')}
+            onPressOut={() => console.log('onPressOut')}>
+            <UpgradeButtonText>{'UPGRADE'}</UpgradeButtonText>
+          </UpgradeButton>
+        </Content>
+        <SetDescriptionWrapper>
+          <DescriptionInput
+            placeholder={'New description...'}
+            value={currentText}
+            onChangeText={setCurrentText}
+            onSubmitEditing={onDescriptionChange}
+          />
+          <DescriptionButton onPress={onDescriptionChange}>
+            <DescriptionButtonText>{'SET'}</DescriptionButtonText>
+          </DescriptionButton>
+        </SetDescriptionWrapper>
+      </Container>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -87,8 +107,7 @@ const Container = styled(View)`
   background-color: #eeeeee;
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
+  display: flex;
 `;
 
 const ProfileImage = styled(Image)`
@@ -118,22 +137,53 @@ const UpgradeButtonText = styled(Text)`
 `;
 
 const DescriptionInput = styled(TextInput)`
-  width: 100%;
-  height: 50px;
   background-color: #cccccc;
-  margin-top: 10px;
   padding: 8px;
+  flex: 1;
 `;
 
 const DescriptionButton = styled(TouchableOpacity)`
   background-color: red;
   padding: 8px;
   border-radius: 4px;
-  margin-top: 5px;
+  width: 80px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const DescriptionButtonText = styled(Text)`
   color: white;
+`;
+
+const SetDescriptionWrapper = styled(View)`
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  height: 50px;
+`;
+
+const LevelIndicator = styled(View)`
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+
+const LevelIndicatorText = styled(Text)`
+  color: white;
+  font-size: 12px;
+  text-align: center;
+`;
+
+const ProfileImageWrapper = styled(View)``;
+
+const Content = styled(View)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ProfileScreen;
