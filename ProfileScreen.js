@@ -39,20 +39,23 @@ const ProfileScreen = () => {
 
   const [level, setLevel] = useState(1);
 
-  const photoAnim = useRef(new Animated.Value(100));
+  const photoAnim = useRef(new Animated.Value(1.0));
+  const upgradeAnim = useRef(new Animated.Value(1.0));
 
   //
 
   const handleEffect = useCallback(() => {
     Animated.timing(photoAnim.current, {
-      toValue: 120,
+      toValue: 1.2,
       duration: 300,
+      useNativeDriver: true,
     }).start();
 
     setTimeout(() => {
       Animated.timing(photoAnim.current, {
-        toValue: 100,
+        toValue: 1.0,
         duration: 300,
+        useNativeDriver: true,
       }).start();
     }, 310);
   }, []);
@@ -63,6 +66,20 @@ const ProfileScreen = () => {
     console.log('Upgrade level!!!');
 
     setLevel(level + 1);
+
+    Animated.timing(upgradeAnim.current, {
+      toValue: 1.2,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    setTimeout(() => {
+      Animated.timing(upgradeAnim.current, {
+        toValue: 1.0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }, 310);
   }
 
   function onDescriptionChange() {
@@ -83,13 +100,24 @@ const ProfileScreen = () => {
         <Content>
           <ProfileImageWrapper>
             <ProfileImage
-              style={{width: photoAnim.current, height: photoAnim.current}}
+              style={{
+                transform: [
+                  {scaleX: photoAnim.current},
+                  {scaleY: photoAnim.current},
+                ],
+              }}
               source={{
                 uri:
                   'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
               }}
             />
-            <LevelIndicator>
+            <LevelIndicator
+              style={{
+                transform: [
+                  {scaleX: upgradeAnim.current},
+                  {scaleY: upgradeAnim.current},
+                ],
+              }}>
               <LevelIndicatorText>{level}</LevelIndicatorText>
             </LevelIndicator>
           </ProfileImageWrapper>
@@ -179,7 +207,7 @@ const SetDescriptionWrapper = styled(View)`
   height: 50px;
 `;
 
-const LevelIndicator = styled(View)`
+const LevelIndicator = styled(Animated.View)`
   background-color: red;
   width: 20px;
   height: 20px;
