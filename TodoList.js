@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {
   View,
   TextInput,
@@ -15,12 +15,9 @@ import ListItem from './ListItem';
 const {width, height} = Dimensions.get('window');
 
 const TodoList = () => {
-  const [tasks, setTasks] = useState([
-    'task1',
-    'other task',
-    'something..',
-    'last',
-  ]);
+  const [tasks, setTasks] = useState(
+    Array.from(Array(1000).keys()).map(e => `element: ${e}`),
+  );
   const [currentText, setCurrentText] = useState('');
 
   function onAddTask() {
@@ -30,8 +27,14 @@ const TodoList = () => {
 
     setCurrentText('');
 
-    setTasks([...tasks, currentText]);
+    const newElems = Array.from(Array(1000).keys()).map(e => `element: ${e}`);
+
+    setTasks(newElems);
   }
+
+  const onItemPress = useCallback(itemInfo => {
+    console.log('onItemPress = ', itemInfo);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -51,9 +54,19 @@ const TodoList = () => {
           <List
             data={tasks}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => <ListItem info={item} />}
+            renderItem={({item, index}) => (
+              <ListItem info={item} onItemPress={onItemPress} />
+            )}
             ListHeaderComponent={() => <Text>'Header'</Text>}
             ListFooterComponent={() => <Text>'Footer'</Text>}
+            windowSize={3} // memory
+            removeClippedSubviews={true} // detach
+            getItemLayout={(data, index) => ({
+              index,
+              length: 80,
+              offset: 80 * index,
+            })}
+            initialNumToRender={20}
           />
         </ListWrapper>
       </Container>

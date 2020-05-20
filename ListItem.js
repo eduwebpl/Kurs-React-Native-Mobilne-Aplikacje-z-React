@@ -1,10 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useRef, useState, memo} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 
-const ListItem = ({info}) => {
+const ListItem = ({info, onItemPress}) => {
+  console.log('Render list item', info);
+
   return (
-    <Container>
+    <Container onPress={() => onItemPress(info)}>
       <InfoText>{info}</InfoText>
     </Container>
   );
@@ -12,7 +14,7 @@ const ListItem = ({info}) => {
 
 //
 
-const Container = styled(View)`
+const Container = styled(TouchableOpacity)`
   height: 80px;
   background-color: gray;
   justify-content: center;
@@ -24,4 +26,4 @@ const InfoText = styled(Text)`
   font-size: 20px;
 `;
 
-export default ListItem;
+export default memo(ListItem);
