@@ -32,26 +32,41 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <View
-        style={{
-          backgroundColor: 'red',
-          width: '100%',
-          height: '100%',
-        }}>
-        {/* <View style={{backgroundColor: 'blue', width: '100%', height: 200}} /> */}
-
+      <View style={styles.container}>
         <Image
-          style={{width: 100, height: 100}}
+          style={styles.profileImage}
           source={{
             uri:
               'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
           }}
         />
-        <Text style={{fontSize: 20}}>{'Jan Nowak'}</Text>
-        <Text>{'something cool here...'}</Text>
+        <Text style={styles.profileNameText}>{'Jan Nowak'}</Text>
+        <Text style={styles.descriptionText}>{'something cool here...'}</Text>
       </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#eeeeee',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
+  profileNameText: {
+    fontSize: 20,
+  },
+  descriptionText: {
+    fontSize: 16,
+    color: 'grey',
+  },
+});
 
 export default App;
