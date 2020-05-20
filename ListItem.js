@@ -13,7 +13,6 @@ const ListItem = ({info}) => {
 //
 
 const Container = styled(View)`
-  width: 100%;
   height: 80px;
   background-color: gray;
   justify-content: center;

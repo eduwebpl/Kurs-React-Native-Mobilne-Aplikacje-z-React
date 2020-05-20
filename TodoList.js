@@ -6,12 +6,21 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  FlatList,
+  Dimensions,
 } from 'react-native';
 import styled from 'styled-components/native';
 import ListItem from './ListItem';
 
+const {width, height} = Dimensions.get('window');
+
 const TodoList = () => {
-  const [tasks, setTasks] = useState(['task1', 'other task', 'something..']);
+  const [tasks, setTasks] = useState([
+    'task1',
+    'other task',
+    'something..',
+    'last',
+  ]);
   const [currentText, setCurrentText] = useState('');
 
   function onAddTask() {
@@ -21,11 +30,7 @@ const TodoList = () => {
 
     setCurrentText('');
 
-    const newElems = Array.from(Array(1000).keys()).map(
-      elem => `element: ${elem}`,
-    );
-
-    setTasks(newElems);
+    setTasks([...tasks, currentText]);
   }
 
   return (
@@ -43,11 +48,13 @@ const TodoList = () => {
         </Header>
 
         <ListWrapper>
-          <List>
-            {tasks.map(t => (
-              <ListItem info={t} />
-            ))}
-          </List>
+          <List
+            data={tasks}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => <ListItem info={item} />}
+            ListHeaderComponent={() => <Text>'Header'</Text>}
+            ListFooterComponent={() => <Text>'Footer'</Text>}
+          />
         </ListWrapper>
       </Container>
     </SafeAreaView>
@@ -87,6 +94,6 @@ const ListWrapper = styled(View)`
   flex: 1;
 `;
 
-const List = styled(ScrollView)``;
+const List = styled(FlatList)``;
 
 export default TodoList;
