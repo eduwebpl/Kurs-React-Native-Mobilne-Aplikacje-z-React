@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Animated,
 } from 'react-native';
 
 import {
@@ -38,7 +39,23 @@ const ProfileScreen = () => {
 
   const [level, setLevel] = useState(1);
 
-  const handleEffect = useCallback(() => console.log('Profile mount'), []);
+  const photoAnim = useRef(new Animated.Value(100));
+
+  //
+
+  const handleEffect = useCallback(() => {
+    Animated.timing(photoAnim.current, {
+      toValue: 120,
+      duration: 300,
+    }).start();
+
+    setTimeout(() => {
+      Animated.timing(photoAnim.current, {
+        toValue: 100,
+        duration: 300,
+      }).start();
+    }, 310);
+  }, []);
 
   useFocusEffect(handleEffect);
 
@@ -66,6 +83,7 @@ const ProfileScreen = () => {
         <Content>
           <ProfileImageWrapper>
             <ProfileImage
+              style={{width: photoAnim.current, height: photoAnim.current}}
               source={{
                 uri:
                   'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
@@ -109,7 +127,7 @@ const Container = styled(View)`
   display: flex;
 `;
 
-const ProfileImage = styled(Image)`
+const ProfileImage = styled(Animated.Image)`
   width: 100px;
   height: 100px;
   border-radius: 50px;
