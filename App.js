@@ -25,6 +25,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import styled from 'styled-components';
+import ProfileScreen from './ProfileScreen';
+
 const profileImage = require('./assets/image.jpg');
 
 const App = () => {
@@ -32,41 +35,9 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Image
-          style={styles.profileImage}
-          source={{
-            uri:
-              'https://steamrep.com/steamimage/avatars/50/50a284580d8318358eb3bb07fd29bb85d6dc82ff_full.jpg',
-          }}
-        />
-        <Text style={styles.profileNameText}>{'Jan Nowak'}</Text>
-        <Text style={styles.descriptionText}>{'something cool here...'}</Text>
-      </View>
+      <ProfileScreen />
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#eeeeee',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-  profileNameText: {
-    fontSize: 20,
-  },
-  descriptionText: {
-    fontSize: 16,
-    color: 'grey',
-  },
-});
 
 export default App;
