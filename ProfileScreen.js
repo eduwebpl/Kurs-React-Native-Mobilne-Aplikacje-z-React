@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,6 +18,8 @@ import {
   Button,
   TouchableHighlight,
   TouchableOpacity,
+  TextInput,
+  Keyboard,
 } from 'react-native';
 
 import {
@@ -33,10 +35,21 @@ import styled from 'styled-components';
 const profileImage = require('./assets/image.jpg');
 
 const ProfileScreen = () => {
+  const [description, setDescription] = useState('Something...');
+  const [currentText, setCurrentText] = useState('');
+
   console.log('Start log');
 
   function onUpgradePress() {
     console.log('Upgrade level!!!');
+  }
+
+  function onDescriptionChange() {
+    setDescription(currentText);
+
+    setCurrentText('');
+
+    Keyboard.dismiss();
   }
 
   return (
@@ -48,7 +61,7 @@ const ProfileScreen = () => {
         }}
       />
       <ProfileNameText>{'Jan Nowak'}</ProfileNameText>
-      <DescriptionText>{'something cool here...'}</DescriptionText>
+      <DescriptionText>{description}</DescriptionText>
 
       <UpgradeButton
         onPress={onUpgradePress}
@@ -56,6 +69,16 @@ const ProfileScreen = () => {
         onPressOut={() => console.log('onPressOut')}>
         <UpgradeButtonText>{'UPGRADE'}</UpgradeButtonText>
       </UpgradeButton>
+
+      <DescriptionInput
+        placeholder={'New description...'}
+        value={currentText}
+        onChangeText={setCurrentText}
+        onSubmitEditing={onDescriptionChange}
+      />
+      <DescriptionButton onPress={onDescriptionChange}>
+        <DescriptionButtonText>{'Set description'}</DescriptionButtonText>
+      </DescriptionButton>
     </Container>
   );
 };
@@ -91,6 +114,25 @@ const UpgradeButton = styled(TouchableOpacity)`
 `;
 
 const UpgradeButtonText = styled(Text)`
+  color: white;
+`;
+
+const DescriptionInput = styled(TextInput)`
+  width: 100%;
+  height: 50px;
+  background-color: #cccccc;
+  margin-top: 10px;
+  padding: 8px;
+`;
+
+const DescriptionButton = styled(TouchableOpacity)`
+  background-color: red;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+`;
+
+const DescriptionButtonText = styled(Text)`
   color: white;
 `;
 
