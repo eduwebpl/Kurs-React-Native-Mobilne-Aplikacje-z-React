@@ -32,6 +32,30 @@ const ProfileScreen = () => {
   const photoAnim = useRef(new Animated.Value(1.0));
   const upgradeAnim = useRef(new Animated.Value(1.0));
 
+  const upgradeButtonAnim = useRef(new Animated.Value(1.0));
+
+  //
+
+  function startUpgradeButtonAnim() {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(upgradeButtonAnim.current, {
+          toValue: 1.2,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.delay(300),
+        Animated.timing(upgradeButtonAnim.current, {
+          toValue: 1.0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }
+
+  useEffect(() => startUpgradeButtonAnim(), []);
+
   //
 
   const handleEffect = useCallback(() => {
@@ -111,6 +135,7 @@ const ProfileScreen = () => {
             <DescriptionText>{description}</DescriptionText>
           </View>
           <UpgradeButton
+            style={scaleTransform(upgradeButtonAnim.current)}
             onPress={onUpgradePress}
             onPressIn={() => console.log('onPressIn')}
             onPressOut={() => console.log('onPressOut')}>
