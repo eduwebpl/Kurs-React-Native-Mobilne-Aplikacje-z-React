@@ -19,6 +19,7 @@ import {
   ProfileImageWrapper,
   Background,
 } from './ProfileScreen.styled';
+import * as Animatable from 'react-native-animatable';
 
 //
 
@@ -32,30 +33,6 @@ const ProfileScreen = () => {
 
   const photoAnim = useRef(new Animated.Value(1.0));
   const upgradeAnim = useRef(new Animated.Value(1.0));
-
-  const upgradeButtonAnim = useRef(new Animated.Value(0.0));
-
-  //
-
-  function startUpgradeButtonAnim() {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(upgradeButtonAnim.current, {
-          toValue: 1.0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.delay(300),
-        Animated.timing(upgradeButtonAnim.current, {
-          toValue: 0.0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
-  }
-
-  useEffect(() => startUpgradeButtonAnim(), []);
 
   //
 
@@ -118,20 +95,27 @@ const ProfileScreen = () => {
 
   //
 
-  const upgradeButtonScale = upgradeButtonAnim.current.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1.0, 1.2],
-  });
-
-  const containerBackgroundOpacity = upgradeButtonAnim.current.interpolate({
-    inputRange: [0, 1.0],
-    outputRange: [0.1, 0.5],
-  });
+  const backgroundAnim = {
+    0: {
+      opacity: 0,
+    },
+    0.5: {
+      opacity: 0.3,
+    },
+    1: {
+      opacity: 0.0,
+    },
+  };
 
   return (
     <ProfileContainer>
       <Container>
-        <Background style={{opacity: containerBackgroundOpacity}} />
+        {/* <Background
+          animation={backgroundAnim}
+          iterationCount={'infinite'}
+          duration={1000}
+          useNativeDriver={true}
+        /> */}
         <Content>
           <ProfileImageWrapper>
             <ProfileImage
@@ -146,13 +130,17 @@ const ProfileScreen = () => {
             <ProfileNameText>{'Jan Nowak'}</ProfileNameText>
             <DescriptionText>{description}</DescriptionText>
           </View>
+          {/* <Animatable.View
+            animation={'shake'}
+            iterationCount={'infinite'}
+            useNativeDriver={true}> */}
           <UpgradeButton
-            style={scaleTransform(upgradeButtonScale)}
             onPress={onUpgradePress}
             onPressIn={() => console.log('onPressIn')}
             onPressOut={() => console.log('onPressOut')}>
             <UpgradeButtonText>{'UPGRADE'}</UpgradeButtonText>
           </UpgradeButton>
+          {/* </Animatable.View> */}
         </Content>
         <SetDescriptionWrapper>
           <DescriptionInput

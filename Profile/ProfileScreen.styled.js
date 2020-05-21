@@ -23,6 +23,10 @@ import ProfileContainer from './ProfileContainer';
 
 import styled from 'styled-components';
 
+import * as Animatable from 'react-native-animatable';
+
+//
+
 export const Container = styled(Animated.View)`
   background-color: #eeeeee;
   width: 100%;
@@ -30,7 +34,7 @@ export const Container = styled(Animated.View)`
   display: flex;
 `;
 
-export const Background = styled(Animated.View)`
+export const Background = styled(Animatable.View)`
   background-color: #ff0000;
   position: absolute;
   top: 0;
