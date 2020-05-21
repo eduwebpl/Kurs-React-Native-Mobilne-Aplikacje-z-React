@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Animated,
 } from 'react-native';
 import styled from 'styled-components/native';
 import ListItem from './ListItem';
@@ -22,6 +23,10 @@ const TodoList = () => {
   const [currentText, setCurrentText] = useState('');
 
   const {navigate} = useNavigation();
+
+  const scrollPosAnim = useRef(new Animated.Value(0));
+
+  //
 
   function onAddTask() {
     if (currentText.length < 3) {
@@ -44,6 +49,19 @@ const TodoList = () => {
     [navigate],
   );
 
+  //
+
+  const scaleTransform = anim => ({
+    transform: [{scaleX: anim}, {scaleY: anim}],
+  });
+
+  const addButtonScale = scrollPosAnim.current.interpolate({
+    inputRange: [0, 2000],
+    outputRange: [0.7, 1.2],
+    extrapolateRight: 'clamp',
+    extrapolateLeft: 'extend',
+  });
+
   return (
     <SafeAreaView>
       <Container>
@@ -53,7 +71,9 @@ const TodoList = () => {
             value={currentText}
             onChangeText={setCurrentText}
           />
-          <AddTaskButton onPress={onAddTask}>
+          <AddTaskButton
+            onPress={onAddTask}
+            style={scaleTransform(addButtonScale)}>
             <AddTaskButtonText>{'ADD'}</AddTaskButtonText>
           </AddTaskButton>
         </Header>
@@ -75,6 +95,16 @@ const TodoList = () => {
               offset: 80 * index,
             })}
             initialNumToRender={20}
+            onScroll={Animated.event(
+              [
+                {
+                  nativeEvent: {contentOffset: {y: scrollPosAnim.current}},
+                },
+              ],
+              {
+                useNativeDriver: true,
+              },
+            )}
           />
         </ListWrapper>
       </Container>
@@ -95,7 +125,10 @@ const TaskTextInput = styled(TextInput)`
   padding: 8px;
 `;
 
-const AddTaskButton = styled(TouchableOpacity)`
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(
+  TouchableOpacity,
+);
+const AddTaskButton = styled(AnimatedTouchableOpacity)`
   background-color: blue;
   width: 100%;
   height: 50px;
@@ -115,6 +148,6 @@ const ListWrapper = styled(View)`
   flex: 1;
 `;
 
-const List = styled(FlatList)``;
+const List = styled(Animated.FlatList)``;
 
 export default TodoList;
