@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TodoList from './TodoList';
-import ProfileScreen from './ProfileScreen';
+import ProfileScreen from './Profile/ProfileScreen';
 import StackNavigator from './StackNavigator';
 
 const Tab = createBottomTabNavigator();

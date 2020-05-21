@@ -3,7 +3,6 @@ import {View, Text} from 'react-native';
 import styled from 'styled-components/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import TodoList from './TodoList';
-import ProfileScreen from './ProfileScreen';
 import DetailsScreen from './DetailsScreen';
 import TabNavigator from './TabNavigator';
 

@@ -27,7 +27,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import styled from 'styled-components';
-import ProfileScreen from './ProfileScreen';
 import TodoList from './TodoList';
 import WebView from 'react-native-webview';
 import {NavigationContainer} from '@react-navigation/native';
