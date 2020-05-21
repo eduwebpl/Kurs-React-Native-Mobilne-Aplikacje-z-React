@@ -21,6 +21,8 @@ import {
 } from './ProfileScreen.styled';
 import * as Animatable from 'react-native-animatable';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 //
 
 const profileImage = require('../assets/image.jpg');
@@ -33,6 +35,22 @@ const ProfileScreen = () => {
 
   const photoAnim = useRef(new Animated.Value(1.0));
   const upgradeAnim = useRef(new Animated.Value(1.0));
+
+  //
+
+  useEffect(() => {
+    AsyncStorage.getItem('DESCRIPTION').then(val => {
+      if (val) {
+        setDescription(val);
+      }
+    });
+
+    AsyncStorage.getItem('LEVEL').then(val => {
+      if (val) {
+        setLevel(parseInt(val, 10));
+      }
+    });
+  }, []);
 
   //
 
@@ -58,6 +76,8 @@ const ProfileScreen = () => {
 
   function onUpgradePress() {
     setLevel(level + 1);
+
+    AsyncStorage.setItem('LEVEL', `${level + 1}`);
 
     Animated.sequence([
       Animated.timing(upgradeAnim.current, {
@@ -85,6 +105,8 @@ const ProfileScreen = () => {
     setCurrentText('');
 
     Keyboard.dismiss();
+
+    AsyncStorage.setItem('DESCRIPTION', currentText);
   }
 
   //
