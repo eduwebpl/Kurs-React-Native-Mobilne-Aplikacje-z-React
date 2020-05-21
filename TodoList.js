@@ -13,18 +13,32 @@ import {
 import styled from 'styled-components/native';
 import ListItem from './ListItem';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const {width, height} = Dimensions.get('window');
 
 const TodoList = () => {
-  const [tasks, setTasks] = useState(
-    Array.from(Array(1000).keys()).map(e => `element: ${e}`),
-  );
+  const [tasks, setTasks] = useState([]);
+
   const [currentText, setCurrentText] = useState('');
 
   const {navigate} = useNavigation();
 
   const scrollPosAnim = useRef(new Animated.Value(0));
+
+  //
+
+  useEffect(() => {
+    AsyncStorage.getItem('LIST').then(val => {
+      if (val) {
+        setTasks(JSON.parse(val));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('LIST', JSON.stringify(tasks));
+  }, [tasks]);
 
   //
 
@@ -35,9 +49,7 @@ const TodoList = () => {
 
     setCurrentText('');
 
-    const newElems = Array.from(Array(1000).keys()).map(e => `element: ${e}`);
-
-    setTasks(newElems);
+    setTasks([...tasks, currentText]);
 
     navigate('ModalDetails', {info: 'New task added'});
   }
