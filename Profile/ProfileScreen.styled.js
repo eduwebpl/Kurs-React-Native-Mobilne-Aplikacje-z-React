@@ -23,11 +23,20 @@ import ProfileContainer from './ProfileContainer';
 
 import styled from 'styled-components';
 
-export const Container = styled(View)`
+export const Container = styled(Animated.View)`
   background-color: #eeeeee;
   width: 100%;
   height: 100%;
   display: flex;
+`;
+
+export const Background = styled(Animated.View)`
+  background-color: #ff0000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 export const ProfileImage = styled(Animated.Image)`

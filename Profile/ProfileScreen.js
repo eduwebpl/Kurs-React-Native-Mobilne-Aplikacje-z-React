@@ -17,6 +17,7 @@ import {
   LevelIndicator,
   LevelIndicatorText,
   ProfileImageWrapper,
+  Background,
 } from './ProfileScreen.styled';
 
 //
@@ -32,7 +33,7 @@ const ProfileScreen = () => {
   const photoAnim = useRef(new Animated.Value(1.0));
   const upgradeAnim = useRef(new Animated.Value(1.0));
 
-  const upgradeButtonAnim = useRef(new Animated.Value(1.0));
+  const upgradeButtonAnim = useRef(new Animated.Value(0.0));
 
   //
 
@@ -40,13 +41,13 @@ const ProfileScreen = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(upgradeButtonAnim.current, {
-          toValue: 1.2,
+          toValue: 1.0,
           duration: 300,
           useNativeDriver: true,
         }),
         Animated.delay(300),
         Animated.timing(upgradeButtonAnim.current, {
-          toValue: 1.0,
+          toValue: 0.0,
           duration: 300,
           useNativeDriver: true,
         }),
@@ -117,9 +118,20 @@ const ProfileScreen = () => {
 
   //
 
+  const upgradeButtonScale = upgradeButtonAnim.current.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1.0, 1.2],
+  });
+
+  const containerBackgroundOpacity = upgradeButtonAnim.current.interpolate({
+    inputRange: [0, 1.0],
+    outputRange: [0.1, 0.5],
+  });
+
   return (
     <ProfileContainer>
       <Container>
+        <Background style={{opacity: containerBackgroundOpacity}} />
         <Content>
           <ProfileImageWrapper>
             <ProfileImage
@@ -135,7 +147,7 @@ const ProfileScreen = () => {
             <DescriptionText>{description}</DescriptionText>
           </View>
           <UpgradeButton
-            style={scaleTransform(upgradeButtonAnim.current)}
+            style={scaleTransform(upgradeButtonScale)}
             onPress={onUpgradePress}
             onPressIn={() => console.log('onPressIn')}
             onPressOut={() => console.log('onPressOut')}>
